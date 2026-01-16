@@ -40,7 +40,9 @@ df = pd.DataFrame({"A": [1, 2], "B": [3, 4]})
 print(df.head())
 
 df.to_parquet(f"output_day_{sys.argv[1]}.parquet")
+
 ```
+The code above reads data from input and prints. And create and loads the data into df and sends that data to parquet file. This is a simple example of how usually a DP works.
 
 ## Why Virtual Environments?
 

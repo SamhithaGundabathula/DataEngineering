@@ -1,6 +1,6 @@
 # Virtual Environments and Data Pipelines
 
-**[↑ Up](README.md)** | **[← Previous](01-introduction.md)** | **[Next →](03-dockerizing-pipeline.md)**
+
 
 A **data pipeline** is a service that receives data as input and outputs more data. For example, reading a CSV file, transforming the data somehow and storing it as a table in a PostgreSQL database.
 
@@ -52,6 +52,8 @@ We can install it with `pip`:
 pip install pandas pyarrow
 ```
 
+here pyarrow is used to manage parquet file
+
 But this installs it globally on your system. This can cause conflicts if different projects need different versions of the same package.
 
 Instead, we want to use a **virtual environment** - an isolated Python environment that keeps dependencies for this project separate from other projects and from your system Python.
@@ -63,6 +65,14 @@ We'll use `uv` - a modern, fast Python package and project manager written in Ru
 ```bash
 pip install uv
 ```
+uv creates and manages a project-specific Python environment for this repository.
+This environment has:
+
+its own Python version (as defined in .python-version)
+
+its own dependencies (as defined in pyproject.toml)
+
+When we run Python using uv run, the script is executed using this isolated environment, not the system Python.
 
 Now initialize a Python project with uv:
 
@@ -115,4 +125,4 @@ This script produces a binary (parquet) file, so let's make sure we don't accide
 *.parquet
 ```
 
-**[↑ Up](README.md)** | **[← Previous](01-introduction.md)** | **[Next →](03-dockerizing-pipeline.md)**
+The interesting way to verify is, try running the pipeline.py file (python filename - uses system python) it may throw error because pandas or pyarrow is not installed in your system. But runs using UV since it is present in your project folder.

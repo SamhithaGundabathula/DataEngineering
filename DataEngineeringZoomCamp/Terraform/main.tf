@@ -8,24 +8,24 @@ terraform {
 }
 
 provider "google" {
-# Credentials only needs to be set if you do not have the GOOGLE_APPLICATION_CREDENTIALS set
-  credentials = "./Keys/my-creds.json"  #your service account key file
-  project = "western-tea-485016-j2"
-  region  = "us-central1"
+  # Credentials only needs to be set if you do not have the GOOGLE_APPLICATION_CREDENTIALS set
+  credentials = "./Keys/my-creds.json" #your service account key file
+  project     = "western-tea-485016-j2"
+  region      = "us-central1"
 }
 
 
 
 resource "google_storage_bucket" "demo-bucket" {
-  name          = "terraformpractisebucket"  #globally unique bucketname
-  location      = "US"
+  name     = var.gcs_bucket_name #globally unique bucketname
+  location = var.location
 
   # Optional, but recommended settings:
-  storage_class = "STANDARD"
+  storage_class               = var.gcs_storage_class
   uniform_bucket_level_access = true
 
   versioning {
-    enabled     = true
+    enabled = true
   }
 
   lifecycle_rule {
@@ -40,4 +40,8 @@ resource "google_storage_bucket" "demo-bucket" {
   force_destroy = true
 }
 
+resource "google_bigquery_dataset" "demo_dataset" {
+  dataset_id = var.bq_dataset_name
+  location   = var.location
+}
 
